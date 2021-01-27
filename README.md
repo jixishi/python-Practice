@@ -1,5 +1,5 @@
 ![Lang US](https://img.shields.io/badge/Lang-Python-blue)
-# **python-Practice**
+# **Python-Practice**
 一个python脚本的练手库
 比较杂大体没有太多**bug**
 可以来我的网站转转吗
