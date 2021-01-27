@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <style>
+        * {
+	padding: 0;
+	margin: 0;
+}
+body {
+	height: 100vh;
+	background: linear-gradient(#99f, #f99);
+}
+body,
+.navbar,
+.navbar ul {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.navbar {
+	position: relative;
+	padding: 20px;
+	border-radius: 50px;
+	background-color: #fff;
+}
+.navbar input {
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+	opacity: 0;
+}
+.navbar span {
+	position: absolute;
+	left: 25px;
+	top: calc(50% - 10px);
+	width: 30px;
+	height: 4px;
+	border-radius: 15px;
+	background-color: #999;
+	pointer-events: none;
+	transition: transform 0.3s ease-in-out, top 0.3s ease-in-out 0.3s;
+}
+
+.navbar span:nth-child(3) {
+	top: calc(50% + 6px);
+}
+.navbar ul {
+	width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	transition: all 0.5s;
+}
+.navbar ul li {
+	list-style: none;
+	margin: 0 15px;
+}
+.navbar ul li a {
+	text-decoration: none;
+	font-size: 20px;
+	font-weight: 700;
+	color: #333;
+}
+.navbar ul li a:hover {
+	color: #fb7299;
+}
+
+.navbar input:checked ~ ul {
+	width: 350px;
+}
+.navbar input:checked ~ span:nth-child(2) {
+	top: calc(50% - 2px);
+	transform: rotate(-45deg);
+	background-color: #fb7299;
+	transition: top 0.3s ease-in-out, transform 0.3s ease-in-out 0.3s;
+}
+.navbar input:checked ~ span:nth-child(3) {
+	top: calc(50% - 2px);
+	transform: rotate(45deg);
+	background-color: #fb7299;
+	transition: top 0.3s ease-in-out, transform 0.3s ease-in-out 0.3s;
+}
+
+    </style>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>BE6-cloud</title>
+		
+	</head>
+	<body>
+		<div class="navbar">
+			<input type="checkbox" />
+			<span></span>
+			<span></span>
+			<ul>
+				<li><a href="/cmd">控制台</a></li>
+				<li><a href="/help">测试</a></li>
+				<li><a href="https://be6.top">BE6</a></li>
+				<li><a href="https://github.com/jixishi">GIT</a></li>
+				<li><a href="https://space.bilibili.com/5730067">B站</a></li>
+			</ul>
+		</div>
+	</body>
+</html>
