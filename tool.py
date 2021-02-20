@@ -1,5 +1,15 @@
 # coding=utf-8
+import ctypes
+import json
 import os
+
+import progressbar
+import requests
+import urllib.parse
+import urllib.request
+import requests.packages.urllib3
+import win32api
+import win32con
 
 
 def IfDir(path):  # 判断目录是否存在
@@ -39,7 +49,7 @@ def WriteText(path, mode, text):
     elif mode == "r":
         file = open(path, mode=mode, encoding="utf-8")
         while True:
-            output = file.read(1024*1024)
+            output = file.read(1024 * 1024)
             if not output:
                 break
             yield output
@@ -66,3 +76,78 @@ def CreateList(path, amount):
     for i in range(amount):
         globals()["list" + str(i)] = lt[i::amount]
     return tuple(globals()["list" + str(i)] for i in range(amount))
+
+
+# 弹出对话框参数 （标题，内容，模式）ctypes.WinDLL("user32.dll").MessageBoxW
+def WinTitleA(title, con, mode):
+    if mode == "o":  # 提醒OK消息框
+        win32api.MessageBox(0, con, title, win32con.MB_OK)
+    elif mode == "yn":  # 是否信息框
+        win32api.MessageBox(0, con, title, win32con.MB_YESNO)
+    elif mode == "s":  # 说明信息框
+        win32api.MessageBox(0, con, title, win32con.MB_HELP)
+    elif mode == "!":  # 警告信息框
+        win32api.MessageBox(0, con, title, win32con.MB_ICONWARNING)
+    elif mode == "q":  # 疑问信息框
+        win32api.MessageBox(0, con, title, win32con.MB_ICONQUESTION)
+    elif mode == "t":  # 提示信息框
+        win32api.MessageBox(0, con, title, win32con.MB_ICONASTERISK)
+    elif mode == "y":  # 确认信息框
+        win32api.MessageBox(0, con, title, win32con.MB_OKCANCEL)
+    elif mode == "r":  # 重试信息框
+        win32api.MessageBox(0, con, title, win32con.MB_RETRYCANCEL)
+    elif mode == "ynb":  # 是否取消信息框
+        win32api.MessageBox(0, con, title, win32con.MB_YESNOCANCEL)
+
+
+# 弹出对话框参数 （标题，内容，模式）
+def WinTitleUI(title, con, mode):
+    if mode == "o":  # 提醒OK消息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_OK)
+    elif mode == "yn":  # 是否信息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_YESNO)
+    elif mode == "s":  # 说明信息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_HELP)
+    elif mode == "!":  # 警告信息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_ICONWARNING)
+    elif mode == "q":  # 疑问信息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_ICONQUESTION)
+    elif mode == "t":  # 提示信息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_ICONASTERISK)
+    elif mode == "y":  # 确认信息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_OKCANCEL)
+    elif mode == "r":  # 重试信息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_RETRYCANCEL)
+    elif mode == "ynb":  # 是否取消信息框
+        ctypes.WinDLL("user32.dll").MessageBoxW(0, con, title, win32con.MB_YESNOCANCEL)
+
+
+def TLYoudao(text):
+    url_youdao = 'http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=' \
+                 'http://www.youdao.com/'
+    datatext = {'type': 'AUTO', 'doctype': 'json', 'xmlVersion': '1.8', 'keyfrom': 'fanyi.web', 'ue': 'UTF-8',
+                'action': 'FY_BY_CLICKBUTTON', 'typoResult': 'true', 'i': text}
+    data = urllib.parse.urlencode(datatext).encode('utf-8')
+    response = urllib.request.urlopen(url_youdao, data)
+    content = response.read().decode('utf-8')
+    data = json.loads(content)
+    result = data['translateResult'][0][0]['tgt']
+    return result
+
+
+def DownLoad(save, url):
+    response = requests.request("GET", url, stream=True, data=None, headers=None)
+    requests.packages.urllib3.disable_warnings()
+    save_path = save
+    total_length = int(response.headers.get("Content-Length"))
+    with open(save_path, 'wb') as f:
+        widgets = ['Progress: ', progressbar.Percentage(), ' ',
+                   progressbar.Bar(marker='#', left='[', right=']'),
+                   ' ', progressbar.ETA(), ' ', progressbar.FileTransferSpeed()]
+        pbar = progressbar.ProgressBar(widgets=widgets, maxval=total_length).start()
+        for chunk in response.iter_content(chunk_size=1):
+            if chunk:
+                f.write(chunk)
+                f.flush()
+            pbar.update(len(chunk) + 1)
+        pbar.finish()
