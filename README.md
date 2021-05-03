@@ -1,6 +1,6 @@
 ![Lang US](https://img.shields.io/badge/Lang-Python-blue)
 # **Python-Practice**
-一个python脚本的练手库
+![python-Practice](https://socialify.git.ci/jixishi/python-Practice/image?description=1&font=Inter&forks=1&issues=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark)
 
 比较杂大体没有太多**bug**
 
