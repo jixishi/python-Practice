@@ -11,7 +11,7 @@
 2. 游玩 ![](https://img.shields.io/badge/-minecraft-brightgreen?style=flat-square)
 3. 做 ![For Mindustry](https://img.shields.io/badge/Mindustry-orange) 的插件与MOD
 4. 学习 ![](https://img.shields.io/badge/-Kotlin-blue?style=flat-square&logo=Kotlin&logoColor=fff)
-5. 学习 ![](https://img.shields.io/badge/-Php-blue?style=flat-square&logo=Php&logoColor=fff)
+5. 学习 ![](https://img.shields.io/badge/-Go-blue?style=flat-square&logo=Go&logoColor=fff)
 ***
 ## 许可证
 [MIT](https://github.com/jixishi/python-Practice/blob/main/LICENSE)
